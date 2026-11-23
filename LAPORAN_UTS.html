@@ -183,6 +183,7 @@
     .screenshot-box {
       margin: 22px 0;
       text-align: center;
+      page-break-inside: avoid;
     }
 
     .screenshot-box img {
@@ -191,13 +192,14 @@
       border: 1px solid var(--border);
       border-radius: 8px;
       box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      page-break-inside: avoid;
     }
 
     .screenshot-caption {
       margin-top: 8px;
       font-size: 13px;
       color: #64748b;
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .print-bar {
@@ -243,10 +245,20 @@
         color: #0f172a !important;
         border: 1px solid #cbd5e1;
       }
+      .screenshot-box {
+        page-break-inside: avoid;
+        margin: 18px 0;
+      }
       .screenshot-box img {
         box-shadow: none !important;
         border: 1px solid #cbd5e1;
-        max-width: 95%;
+        max-width: 90%;
+        page-break-inside: avoid;
+      }
+      .question-card {
+        page-break-inside: avoid;
+      }
+      tr {
         page-break-inside: avoid;
       }
     }
@@ -595,8 +607,18 @@ simadu-api/
     </table>
 
     <div class="screenshot-box">
+      <img src="docs/screenshots/thunder-login-200.png" alt="Pengujian HTTP Client Login 200 OK">
+      <div class="screenshot-caption">Gambar 4.2: Uji Coba HTTP Client (Thunder Client) — Skenario 1: Login Kredensial Benar & Penerbitan JWT Bearer Token (200 OK)</div>
+    </div>
+
+    <div class="screenshot-box">
+      <img src="docs/screenshots/thunder-login-401.png" alt="Pengujian HTTP Client Password Salah 401 Unauthorized">
+      <div class="screenshot-caption">Gambar 4.3: Uji Coba HTTP Client (Thunder Client) — Skenario 2: Penolakan Login Password Salah (401 Unauthorized)</div>
+    </div>
+
+    <div class="screenshot-box">
       <img src="docs/screenshots/swagger-tryout-401.png" alt="Bukti Pengujian Interaktif Keamanan 401">
-      <div class="screenshot-caption">Gambar 4.2: Bukti Pengujian Interaktif Swagger UI — Penolakan Akses Tanpa Token (401 Unauthorized)</div>
+      <div class="screenshot-caption">Gambar 4.4: Uji Coba Interaktif Swagger UI — Skenario 3: Penolakan Akses Endpoint Tanpa Bearer Token (401 Unauthorized)</div>
     </div>
 
     <h2 class="section-title">BAB V: Dokumentasi Teknis dan Swagger UI</h2>
