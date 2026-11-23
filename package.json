@@ -15,6 +15,10 @@
     "simadu"
   ],
   "author": "Rahmat Allam (NIM: 240104040182)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ryukiken/simadu-api-.git"
+  },
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",

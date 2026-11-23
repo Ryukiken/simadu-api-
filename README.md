@@ -58,7 +58,8 @@ simadu-api/
 
 1. **Clone atau buka repositori:**
    ```bash
-   cd simadu-api
+   git clone https://github.com/Ryukiken/simadu-api-.git
+   cd simadu-api-
    ```
 
 2. **Instal dependensi:**

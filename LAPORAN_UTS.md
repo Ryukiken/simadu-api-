@@ -10,6 +10,7 @@
 * **Mata Kuliah:** Web Service Engineering (3 SKS)  
 * **Dosen Pengampu:** Muhayat, M.IT  
 * **Nama Proyek:** SIMADU API (*Sistem Layanan Informasi dan Pengaduan Mahasiswa*)  
+* **Repository GitHub:** [https://github.com/Ryukiken/simadu-api-](https://github.com/Ryukiken/simadu-api-)  
 * **Teknologi:** Node.js, Express 5, JSON, JWT, Bcrypt, Swagger UI / OpenAPI 3.0  
 
 ---
