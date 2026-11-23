@@ -1,6 +1,7 @@
 # SIMADU REST API (Sistem Layanan Informasi dan Pengaduan Mahasiswa)
 
 > **Ujian Tengah Semester (UTS) — Web Service Engineering (WSE)**  
+> **Nama Mahasiswa:** Rahmat Allam | **NIM:** 240104040182  
 > Program Studi Teknologi Informasi | Dosen: Muhayat, M.IT
 
 ---
