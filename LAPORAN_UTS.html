@@ -180,6 +180,26 @@
       margin-bottom: 8px;
     }
 
+    .screenshot-box {
+      margin: 22px 0;
+      text-align: center;
+    }
+
+    .screenshot-box img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+
+    .screenshot-caption {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #64748b;
+      font-weight: 500;
+    }
+
     .print-bar {
       position: sticky;
       top: 15px;
@@ -222,6 +242,12 @@
         background: #f8fafc !important;
         color: #0f172a !important;
         border: 1px solid #cbd5e1;
+      }
+      .screenshot-box img {
+        box-shadow: none !important;
+        border: 1px solid #cbd5e1;
+        max-width: 95%;
+        page-break-inside: avoid;
       }
     }
   </style>
@@ -431,6 +457,11 @@ simadu-api/
 └── README.md
     </pre>
 
+    <div class="screenshot-box">
+      <img src="docs/screenshots/vscode-architecture.png" alt="Struktur Arsitektur Proyek di VS Code">
+      <div class="screenshot-caption">Gambar 2.1: Implementasi Struktur Arsitektur Berlapis SIMADU API pada Editor VS Code</div>
+    </div>
+
     <h2 class="section-title">BAB III: Mekanisme Keamanan dan Kontrol Akses</h2>
     <ol>
       <li><strong>Keamanan Kredensial</strong>: Password pengguna dienkripsi secara satu arah menggunakan <code>bcryptjs</code> (salt rounds = 10) saat sistem diinisialisasi. Password plaintext tidak pernah disimpan.</li>
@@ -445,7 +476,12 @@ simadu-api/
     </ol>
 
     <h2 class="section-title">BAB IV: Hasil Pengujian Fungsional dan Keamanan (12 Skenario)</h2>
-    <p>Pengujian dilakukan secara otomatis menggunakan skrip <code>npm test</code> (skrip <code>tests/test-runner.cjs</code>) dan diverifikasi melalui Postman. Seluruh 12 skenario berhasil memenuhi ekspektasi:</p>
+    <p>Pengujian dilakukan secara otomatis menggunakan skrip <code>npm test</code> (skrip <code>tests/test-runner.cjs</code>) dan diverifikasi melalui Postman / HTTP Client. Seluruh 12 skenario berhasil memenuhi ekspektasi:</p>
+
+    <div class="screenshot-box">
+      <img src="docs/screenshots/terminal-test-12passed.png" alt="Bukti Eksekusi Pengujian 12 Skenario">
+      <div class="screenshot-caption">Gambar 4.1: Bukti Eksekusi Pengujian Otomatis Terminal (12/12 Skenario 100% PASSED)</div>
+    </div>
 
     <table>
       <thead>
@@ -558,8 +594,18 @@ simadu-api/
       </tbody>
     </table>
 
+    <div class="screenshot-box">
+      <img src="docs/screenshots/swagger-tryout-401.png" alt="Bukti Pengujian Interaktif Keamanan 401">
+      <div class="screenshot-caption">Gambar 4.2: Bukti Pengujian Interaktif Swagger UI — Penolakan Akses Tanpa Token (401 Unauthorized)</div>
+    </div>
+
     <h2 class="section-title">BAB V: Dokumentasi Teknis dan Swagger UI</h2>
     <p>SIMADU API dilengkapi dokumentasi interaktif yang dapat dibuka langsung di peramban web pada alamat <strong><code>http://localhost:3000/api-docs</code></strong>. Dokumentasi ini mencakup skema request, response, status code, dan otorisasi Bearer Token interaktif.</p>
+
+    <div class="screenshot-box">
+      <img src="docs/screenshots/swagger-dashboard.png" alt="Dokumentasi Swagger UI">
+      <div class="screenshot-caption">Gambar 5.1: Dokumentasi Interaktif OpenAPI 3.0 / Swagger UI (http://localhost:3000/api-docs)</div>
+    </div>
 
     <h2 class="section-title">BAB VI: Jawaban 10 Pertanyaan Demonstrasi UTS</h2>
 

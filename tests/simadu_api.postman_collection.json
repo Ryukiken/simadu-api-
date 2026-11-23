@@ -21,7 +21,7 @@
           "mode": "raw",
           "raw": "{\n  \"username\": \"mhs_budi\",\n  \"password\": \"password123\"\n}"
         },
-        "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+        "url": { "raw": "http://localhost:3000/api/auth/login", "host": ["http://localhost:3000/api"], "path": ["auth", "login"] }
       }
     },
     {
@@ -35,7 +35,7 @@
           "mode": "raw",
           "raw": "{\n  \"username\": \"mhs_budi\",\n  \"password\": \"passwordsalah\"\n}"
         },
-        "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+        "url": { "raw": "http://localhost:3000/api/auth/login", "host": ["http://localhost:3000/api"], "path": ["auth", "login"] }
       }
     },
     {
@@ -43,7 +43,7 @@
       "request": {
         "method": "GET",
         "header": [],
-        "url": { "raw": "{{baseUrl}}/pengaduan", "host": ["{{baseUrl}}"], "path": ["pengaduan"] }
+        "url": { "raw": "http://localhost:3000/api/pengaduan", "host": ["http://localhost:3000/api"], "path": ["pengaduan"] }
       }
     },
     {
@@ -53,7 +53,7 @@
         "header": [
           { "key": "Authorization", "value": "Bearer token_palsu_invalid_123" }
         ],
-        "url": { "raw": "{{baseUrl}}/pengaduan", "host": ["{{baseUrl}}"], "path": ["pengaduan"] }
+        "url": { "raw": "http://localhost:3000/api/pengaduan", "host": ["http://localhost:3000/api"], "path": ["pengaduan"] }
       }
     },
     {
@@ -68,7 +68,7 @@
           "mode": "raw",
           "raw": "{\n  \"judul\": \"AC Ruang Lab 3 Mati\",\n  \"kategori\": \"Fasilitas\",\n  \"deskripsi\": \"Suhu ruangan sangat panas selama praktikum berlangsung.\"\n}"
         },
-        "url": { "raw": "{{baseUrl}}/pengaduan", "host": ["{{baseUrl}}"], "path": ["pengaduan"] }
+        "url": { "raw": "http://localhost:3000/api/pengaduan", "host": ["http://localhost:3000/api"], "path": ["pengaduan"] }
       }
     },
     {
@@ -78,7 +78,7 @@
         "header": [
           { "key": "Authorization", "value": "Bearer {{studentToken}}" }
         ],
-        "url": { "raw": "{{baseUrl}}/pengaduan/1", "host": ["{{baseUrl}}"], "path": ["pengaduan", "1"] }
+        "url": { "raw": "http://localhost:3000/api/pengaduan/1", "host": ["http://localhost:3000/api"], "path": ["pengaduan", "1"] }
       }
     },
     {
@@ -88,7 +88,7 @@
         "header": [
           { "key": "Authorization", "value": "Bearer {{studentToken}}" }
         ],
-        "url": { "raw": "{{baseUrl}}/pengaduan/3", "host": ["{{baseUrl}}"], "path": ["pengaduan", "3"] }
+        "url": { "raw": "http://localhost:3000/api/pengaduan/3", "host": ["http://localhost:3000/api"], "path": ["pengaduan", "3"] }
       }
     },
     {
@@ -103,7 +103,7 @@
           "mode": "raw",
           "raw": "{\n  \"status\": \"selesai\"\n}"
         },
-        "url": { "raw": "{{baseUrl}}/pengaduan/1/status", "host": ["{{baseUrl}}"], "path": ["pengaduan", "1", "status"] }
+        "url": { "raw": "http://localhost:3000/api/pengaduan/1/status", "host": ["http://localhost:3000/api"], "path": ["pengaduan", "1", "status"] }
       }
     },
     {
@@ -113,7 +113,7 @@
         "header": [
           { "key": "Authorization", "value": "Bearer {{adminToken}}" }
         ],
-        "url": { "raw": "{{baseUrl}}/pengaduan", "host": ["{{baseUrl}}"], "path": ["pengaduan"] }
+        "url": { "raw": "http://localhost:3000/api/pengaduan", "host": ["http://localhost:3000/api"], "path": ["pengaduan"] }
       }
     },
     {
@@ -128,7 +128,7 @@
           "mode": "raw",
           "raw": "{\n  \"status\": \"diproses\"\n}"
         },
-        "url": { "raw": "{{baseUrl}}/pengaduan/1/status", "host": ["{{baseUrl}}"], "path": ["pengaduan", "1", "status"] }
+        "url": { "raw": "http://localhost:3000/api/pengaduan/1/status", "host": ["http://localhost:3000/api"], "path": ["pengaduan", "1", "status"] }
       }
     },
     {
@@ -143,7 +143,7 @@
           "mode": "raw",
           "raw": "{\n  \"judul\": \"\",\n  \"kategori\": \"Fasilitas\",\n  \"deskripsi\": \"\"\n}"
         },
-        "url": { "raw": "{{baseUrl}}/pengaduan", "host": ["{{baseUrl}}"], "path": ["pengaduan"] }
+        "url": { "raw": "http://localhost:3000/api/pengaduan", "host": ["http://localhost:3000/api"], "path": ["pengaduan"] }
       }
     },
     {
@@ -153,7 +153,7 @@
         "header": [
           { "key": "Authorization", "value": "Bearer {{adminToken}}" }
         ],
-        "url": { "raw": "{{baseUrl}}/pengaduan/99999", "host": ["{{baseUrl}}"], "path": ["pengaduan", "99999"] }
+        "url": { "raw": "http://localhost:3000/api/pengaduan/99999", "host": ["http://localhost:3000/api"], "path": ["pengaduan", "99999"] }
       }
     }
   ]
