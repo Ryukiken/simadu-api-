@@ -1,0 +1,656 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "SIMADU API - Layanan Informasi dan Pengaduan Mahasiswa",
+    "description": "REST API untuk Sistem Layanan Informasi dan Pengaduan Mahasiswa berbasis Node.js dan Express 5. Mengimplementasikan autentikasi JWT Bearer Token, otorisasi berbasis peran (RBAC & kepemilikan data), validasi input ketat, dan penanganan kesalahan terstandar.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Pengembang SIMADU API",
+      "email": "developer@kampus.ac.id"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Server Pengembangan Lokal"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Masukkan JWT token dengan format: Bearer <token>"
+      }
+    },
+    "schemas": {
+      "Pengaduan": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1,
+            "description": "Identitas unik pengaduan"
+          },
+          "mahasiswaId": {
+            "type": "string",
+            "example": "mhs-001",
+            "description": "Identitas pemilik pengaduan (diambil dari token)"
+          },
+          "judul": {
+            "type": "string",
+            "example": "Proyektor Ruang A.201 Rusak",
+            "description": "Judul pengaduan"
+          },
+          "kategori": {
+            "type": "string",
+            "enum": ["Fasilitas", "Akademik", "TI"],
+            "example": "Fasilitas",
+            "description": "Kategori pengaduan"
+          },
+          "deskripsi": {
+            "type": "string",
+            "example": "Proyektor mati total dan tidak menampilkan layar proyektor.",
+            "description": "Uraian pengaduan"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["diajukan", "diproses", "selesai"],
+            "example": "diajukan",
+            "description": "Status pengaduan"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-11-20T08:30:00.000Z",
+            "description": "Waktu pembuatan format ISO 8601"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["username", "password"],
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "mhs_budi"
+          },
+          "password": {
+            "type": "string",
+            "example": "password123"
+          }
+        }
+      },
+      "CreatePengaduanRequest": {
+        "type": "object",
+        "required": ["judul", "kategori", "deskripsi"],
+        "properties": {
+          "judul": {
+            "type": "string",
+            "example": "AC Ruang Lab 3 Panas"
+          },
+          "kategori": {
+            "type": "string",
+            "enum": ["Fasilitas", "Akademik", "TI"],
+            "example": "Fasilitas"
+          },
+          "deskripsi": {
+            "type": "string",
+            "example": "AC hanya mengeluarkan angin dan suhu ruangan panas saat ujian."
+          }
+        }
+      },
+      "UpdatePengaduanRequest": {
+        "type": "object",
+        "required": ["judul", "kategori", "deskripsi"],
+        "properties": {
+          "judul": {
+            "type": "string",
+            "example": "AC Ruang Lab 3 Mati Total"
+          },
+          "kategori": {
+            "type": "string",
+            "enum": ["Fasilitas", "Akademik", "TI"],
+            "example": "Fasilitas"
+          },
+          "deskripsi": {
+            "type": "string",
+            "example": "Update: AC sekarang mati total dan tidak bisa dinyalakan."
+          }
+        }
+      },
+      "UpdateStatusRequest": {
+        "type": "object",
+        "required": ["status"],
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": ["diajukan", "diproses", "selesai"],
+            "example": "diproses"
+          }
+        }
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "example": "Operasi berhasil."
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "message": {
+            "type": "string",
+            "example": "Pesan deskripsi kesalahan"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Autentikasi"],
+        "summary": "Autentikasi pengguna dan mendapatkan JWT Bearer Token",
+        "description": "Pengguna (Mahasiswa atau Administrator) login menggunakan username dan password. Jika berhasil, server mengembalikan JWT token.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login berhasil dan token diterima",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validasi input gagal (field wajib kosong)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Kredensial tidak valid (username/password salah)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/pengaduan": {
+      "get": {
+        "tags": ["Pengaduan"],
+        "summary": "Mengambil daftar pengaduan sesuai hak akses",
+        "description": "Mahasiswa hanya dapat melihat pengaduannya sendiri, sedangkan Administrator dapat melihat seluruh pengaduan.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daftar pengaduan berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "message": { "type": "string", "example": "Daftar pengaduan berhasil diambil." },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Pengaduan"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Akses ditolak karena tidak ada token atau token tidak valid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Pengaduan"],
+        "summary": "Menambahkan pengaduan baru",
+        "description": "Hanya mahasiswa yang diperbolehkan membuat pengaduan. Identitas pemilik (mahasiswaId) diambil dari token, dan status awal selalu 'diajukan'.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePengaduanRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Pengaduan berhasil diajukan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "message": { "type": "string", "example": "Pengaduan berhasil diajukan." },
+                    "data": { "$ref": "#/components/schemas/Pengaduan" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validasi input gagal (field wajib kosong atau field tidak diizinkan)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Akses ditolak tanpa token yang sah",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Pengguna bukan mahasiswa (misalnya Administrator mencoba membuat pengaduan)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/pengaduan/{id}": {
+      "get": {
+        "tags": ["Pengaduan"],
+        "summary": "Mengambil detail pengaduan",
+        "description": "Mengambil detail pengaduan berdasarkan ID. Mahasiswa hanya dapat melihat pengaduannya sendiri, sedangkan Admin dapat melihat semua pengaduan.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID numerik pengaduan",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detail pengaduan berhasil diambil",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "message": { "type": "string", "example": "Detail pengaduan berhasil diambil." },
+                    "data": { "$ref": "#/components/schemas/Pengaduan" }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Akses tidak terautentikasi",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Mahasiswa mencoba melihat pengaduan milik mahasiswa lain",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pengaduan dengan ID tersebut tidak ditemukan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Pengaduan"],
+        "summary": "Mengubah judul, kategori, dan deskripsi pengaduan",
+        "description": "Hanya mahasiswa pemilik yang dapat mengubah pengaduan dan hanya diperbolehkan selama pengaduan masih berstatus 'diajukan'.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID numerik pengaduan",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePengaduanRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Pengaduan berhasil diperbarui",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "message": { "type": "string", "example": "Pengaduan berhasil diperbarui." },
+                    "data": { "$ref": "#/components/schemas/Pengaduan" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Pengaduan tidak dapat diubah karena status bukan 'diajukan', atau validasi body gagal",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Akses tidak terautentikasi",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Pengguna bukan pemilik pengaduan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pengaduan tidak ditemukan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Pengaduan"],
+        "summary": "Menghapus pengaduan",
+        "description": "Hanya mahasiswa pemilik yang dapat menghapus pengaduan dan hanya diperbolehkan selama pengaduan masih berstatus 'diajukan'.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID numerik pengaduan",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pengaduan berhasil dihapus",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "message": { "type": "string", "example": "Pengaduan dengan ID 1 berhasil dihapus." }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Pengaduan tidak dapat dihapus karena status sudah bukan 'diajukan'",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Akses tidak terautentikasi",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Pengguna bukan pemilik pengaduan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pengaduan tidak ditemukan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/pengaduan/{id}/status": {
+      "patch": {
+        "tags": ["Pengaduan"],
+        "summary": "Memperbarui status penanganan pengaduan",
+        "description": "Khusus untuk peran Administrator. Status dapat diubah menjadi 'diajukan', 'diproses', atau 'selesai'.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID numerik pengaduan",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStatusRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status pengaduan berhasil diperbarui",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "example": true },
+                    "message": { "type": "string", "example": "Status pengaduan berhasil diperbarui." },
+                    "data": { "$ref": "#/components/schemas/Pengaduan" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Status tidak valid atau field tidak sesuai",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Akses tidak terautentikasi",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Bukan administrator (Mahasiswa dilarang mengubah status)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pengaduan tidak ditemukan",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

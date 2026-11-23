@@ -1,0 +1,160 @@
+{
+  "info": {
+    "name": "SIMADU API - UTS Web Service Engineering",
+    "description": "Koleksi Postman untuk pengujian 12 Skenario Fungsional & Keamanan SIMADU API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000/api" },
+    { "key": "studentToken", "value": "" },
+    { "key": "adminToken", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "01. Login Kredensial Benar (200)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"mhs_budi\",\n  \"password\": \"password123\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+      }
+    },
+    {
+      "name": "02. Login Password Salah (401)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"mhs_budi\",\n  \"password\": \"passwordsalah\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+      }
+    },
+    {
+      "name": "03. Akses Tanpa Token (401)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/pengaduan", "host": ["{{baseUrl}}"], "path": ["pengaduan"] }
+      }
+    },
+    {
+      "name": "04. Akses Token Tidak Valid (401)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer token_palsu_invalid_123" }
+        ],
+        "url": { "raw": "{{baseUrl}}/pengaduan", "host": ["{{baseUrl}}"], "path": ["pengaduan"] }
+      }
+    },
+    {
+      "name": "05. Mahasiswa Buat Pengaduan Valid (201)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"judul\": \"AC Ruang Lab 3 Mati\",\n  \"kategori\": \"Fasilitas\",\n  \"deskripsi\": \"Suhu ruangan sangat panas selama praktikum berlangsung.\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/pengaduan", "host": ["{{baseUrl}}"], "path": ["pengaduan"] }
+      }
+    },
+    {
+      "name": "06. Mahasiswa Membaca Pengaduan Sendiri (200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+        ],
+        "url": { "raw": "{{baseUrl}}/pengaduan/1", "host": ["{{baseUrl}}"], "path": ["pengaduan", "1"] }
+      }
+    },
+    {
+      "name": "07. Mahasiswa Membaca Pengaduan Orang Lain (403)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+        ],
+        "url": { "raw": "{{baseUrl}}/pengaduan/3", "host": ["{{baseUrl}}"], "path": ["pengaduan", "3"] }
+      }
+    },
+    {
+      "name": "08. Mahasiswa Mengubah Status Pengaduan (403)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"selesai\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/pengaduan/1/status", "host": ["{{baseUrl}}"], "path": ["pengaduan", "1", "status"] }
+      }
+    },
+    {
+      "name": "09. Admin Melihat Seluruh Pengaduan (200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+        ],
+        "url": { "raw": "{{baseUrl}}/pengaduan", "host": ["{{baseUrl}}"], "path": ["pengaduan"] }
+      }
+    },
+    {
+      "name": "10. Admin Memperbarui Status Pengaduan (200)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"diproses\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/pengaduan/1/status", "host": ["{{baseUrl}}"], "path": ["pengaduan", "1", "status"] }
+      }
+    },
+    {
+      "name": "11. Membuat Pengaduan Field Wajib Kosong (400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"judul\": \"\",\n  \"kategori\": \"Fasilitas\",\n  \"deskripsi\": \"\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/pengaduan", "host": ["{{baseUrl}}"], "path": ["pengaduan"] }
+      }
+    },
+    {
+      "name": "12. Mengakses ID Pengaduan Tidak Ditemukan (404)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+        ],
+        "url": { "raw": "{{baseUrl}}/pengaduan/99999", "host": ["{{baseUrl}}"], "path": ["pengaduan", "99999"] }
+      }
+    }
+  ]
+}

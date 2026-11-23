@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laporan UTS - Web Service Engineering (SIMADU API)</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+    :root {
+      --primary: #1e3a8a;
+      --secondary: #0284c7;
+      --accent: #059669;
+      --dark: #0f172a;
+      --light: #f8fafc;
+      --border: #e2e8f0;
+      --danger: #dc2626;
+      --warning: #d97706;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: #334155;
+      background-color: #f1f5f9;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 40px 50px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+    }
+
+    .header-cover {
+      text-align: center;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 25px;
+      margin-bottom: 35px;
+    }
+
+    .header-cover h1 {
+      font-size: 24px;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .header-cover h2 {
+      font-size: 18px;
+      color: #475569;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .meta-box {
+      display: inline-block;
+      text-align: left;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .meta-box table td {
+      padding: 4px 10px;
+    }
+
+    h2.section-title {
+      font-size: 20px;
+      color: var(--primary);
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      margin-top: 35px;
+      margin-bottom: 18px;
+    }
+
+    h3 {
+      font-size: 16px;
+      color: #1e293b;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 12px;
+      font-size: 14.5px;
+      text-align: justify;
+    }
+
+    ul, ol {
+      margin-left: 24px;
+      margin-bottom: 16px;
+      font-size: 14.5px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 24px 0;
+      font-size: 13.5px;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 9px 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      color: #1e293b;
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f8fafc;
+    }
+
+    .badge-pass {
+      display: inline-block;
+      background-color: #dcfce7;
+      color: #15803d;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    pre, code {
+      font-family: 'Fira Code', monospace;
+    }
+
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 14px 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 12.5px;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    p code, td code {
+      background-color: #f1f5f9;
+      color: #0369a1;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    .question-card {
+      background: #f8fafc;
+      border-left: 4px solid var(--secondary);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+    }
+
+    .question-card h4 {
+      color: #0f172a;
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+
+    .print-bar {
+      position: sticky;
+      top: 15px;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+      z-index: 100;
+    }
+
+    .btn-print {
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+
+    .btn-print:hover {
+      background-color: #1d4ed8;
+    }
+
+    @media print {
+      body {
+        background-color: #ffffff;
+        padding: 0;
+      }
+      .container {
+        box-shadow: none;
+        padding: 0;
+        max-width: 100%;
+      }
+      .print-bar {
+        display: none;
+      }
+      pre {
+        background: #f8fafc !important;
+        color: #0f172a !important;
+        border: 1px solid #cbd5e1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="print-bar">
+      <button class="btn-print" onclick="window.print()">Cetak / Simpan ke PDF</button>
+    </div>
+
+    <div class="header-cover">
+      <h1>Laporan Ujian Tengah Semester (UTS)</h1>
+      <h2>Web Service Engineering (WSE)</h2>
+      <p><em>Merancang dan Membangun REST API yang Aman, Terstruktur, dan Dapat Dipertanggungjawabkan</em></p>
+      
+      <div class="meta-box">
+        <table>
+          <tr>
+            <td><strong>Nama Mahasiswa</strong></td>
+            <td>: <strong>Rahmat Allam</strong></td>
+          </tr>
+          <tr>
+            <td><strong>NIM</strong></td>
+            <td>: <strong>240104040182</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Program Studi</strong></td>
+            <td>: Teknologi Informasi</td>
+          </tr>
+          <tr>
+            <td><strong>Mata Kuliah</strong></td>
+            <td>: Web Service Engineering (3 SKS)</td>
+          </tr>
+          <tr>
+            <td><strong>Dosen Pengampu</strong></td>
+            <td>: Muhayat, M.IT</td>
+          </tr>
+          <tr>
+            <td><strong>Sistem / Proyek</strong></td>
+            <td>: SIMADU API (Layanan Informasi & Pengaduan Mahasiswa)</td>
+          </tr>
+          <tr>
+            <td><strong>Stack Teknologi</strong></td>
+            <td>: Node.js, Express 5, JWT, Bcrypt, OpenAPI / Swagger UI</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <h2 class="section-title">BAB I: Analisis Kebutuhan dan Perancangan REST API</h2>
+    
+    <h3>1.1 Identifikasi Aktor Sistem</h3>
+    <ol>
+      <li><strong>Mahasiswa (<code>mahasiswa</code>)</strong>: Dapat menyampaikan pengaduan baru, membaca pengaduan miliknya sendiri, serta mengubah atau menghapus pengaduan miliknya selama status penanganannya masih <code>diajukan</code>. Mahasiswa tidak boleh mengakses pengaduan milik orang lain dan tidak boleh mengubah status pengaduan.</li>
+      <li><strong>Administrator (<code>admin</code>)</strong>: Memantau dan membaca seluruh pengaduan mahasiswa di sistem serta memperbarui status penanganan (<code>diajukan</code>, <code>diproses</code>, <code>selesai</code>). Admin tidak diperkenankan membuat pengaduan mahasiswa atau mengubah isi deskripsi laporan.</li>
+    </ol>
+
+    <h3>1.2 Resource Utama dan Spesifikasi Data</h3>
+    <p>Resource utama pada SIMADU API adalah <code>pengaduan</code> dengan atribut sebagai berikut:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Tipe Data</th>
+          <th>Keterangan</th>
+          <th>Validasi & Aturan Bisnis</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>id</code></td>
+          <td>Integer</td>
+          <td>Identitas unik pengaduan</td>
+          <td>Auto-increment oleh server, read-only.</td>
+        </tr>
+        <tr>
+          <td><code>mahasiswaId</code></td>
+          <td>String</td>
+          <td>Identitas pemilik</td>
+          <td>Diambil otomatis dari token autentikasi (JWT).</td>
+        </tr>
+        <tr>
+          <td><code>judul</code></td>
+          <td>String</td>
+          <td>Judul ringkas pengaduan</td>
+          <td>Wajib diisi, non-empty string.</td>
+        </tr>
+        <tr>
+          <td><code>kategori</code></td>
+          <td>String</td>
+          <td>Kategori pengaduan</td>
+          <td>Wajib: <code>Fasilitas</code>, <code>Akademik</code>, atau <code>TI</code>.</td>
+        </tr>
+        <tr>
+          <td><code>deskripsi</code></td>
+          <td>String</td>
+          <td>Uraian lengkap kendala</td>
+          <td>Wajib diisi, non-empty string.</td>
+        </tr>
+        <tr>
+          <td><code>status</code></td>
+          <td>String</td>
+          <td>Status proses penanganan</td>
+          <td>Nilai valid: <code>diajukan</code>, <code>diproses</code>, <code>selesai</code> (default: <code>diajukan</code>).</td>
+        </tr>
+        <tr>
+          <td><code>createdAt</code></td>
+          <td>String</td>
+          <td>Waktu pembuatan</td>
+          <td>Format standar ISO 8601 UTC yang digenerate oleh server.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>1.3 Tabel Kontrak Endpoint REST API</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Metode</th>
+          <th>Endpoint</th>
+          <th>Request Body</th>
+          <th>Sukses</th>
+          <th>Gagal</th>
+          <th>Keterangan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>POST</code></td>
+          <td><code>/api/auth/login</code></td>
+          <td><code>{ "username", "password" }</code></td>
+          <td>200 OK</td>
+          <td>400, 401</td>
+          <td>Autentikasi kredensial pengguna dan mengembalikan JWT token.</td>
+        </tr>
+        <tr>
+          <td><code>GET</code></td>
+          <td><code>/api/pengaduan</code></td>
+          <td><em>(None)</em></td>
+          <td>200 OK</td>
+          <td>401</td>
+          <td>Melihat daftar pengaduan (Mahasiswa: milik sendiri, Admin: semua).</td>
+        </tr>
+        <tr>
+          <td><code>GET</code></td>
+          <td><code>/api/pengaduan/:id</code></td>
+          <td><em>(None)</em></td>
+          <td>200 OK</td>
+          <td>401, 403, 404</td>
+          <td>Mengambil detail pengaduan (Mahasiswa dilarang melihat milik orang lain).</td>
+        </tr>
+        <tr>
+          <td><code>POST</code></td>
+          <td><code>/api/pengaduan</code></td>
+          <td><code>{ "judul", "kategori", "deskripsi" }</code></td>
+          <td>201 Created</td>
+          <td>400, 401, 403</td>
+          <td>Menambah pengaduan baru oleh mahasiswa (status awal <code>diajukan</code>).</td>
+        </tr>
+        <tr>
+          <td><code>PUT</code></td>
+          <td><code>/api/pengaduan/:id</code></td>
+          <td><code>{ "judul", "kategori", "deskripsi" }</code></td>
+          <td>200 OK</td>
+          <td>400, 401, 403, 404</td>
+          <td>Mengubah data pengaduan milik sendiri selama status masih <code>diajukan</code>.</td>
+        </tr>
+        <tr>
+          <td><code>PATCH</code></td>
+          <td><code>/api/pengaduan/:id/status</code></td>
+          <td><code>{ "status" }</code></td>
+          <td>200 OK</td>
+          <td>400, 401, 403, 404</td>
+          <td>Memperbarui status penanganan pengaduan (khusus Administrator).</td>
+        </tr>
+        <tr>
+          <td><code>DELETE</code></td>
+          <td><code>/api/pengaduan/:id</code></td>
+          <td><em>(None)</em></td>
+          <td>200 OK</td>
+          <td>400, 401, 403, 404</td>
+          <td>Menghapus pengaduan milik sendiri selama status masih <code>diajukan</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 class="section-title">BAB II: Arsitektur dan Struktur Proyek</h2>
+    <p>Sistem ini dirancang menggunakan <strong>Arsitektur Berlapis (Layered Architecture)</strong> untuk menjamin keterpisahan tugas (*Separation of Concerns*), kemudahan pengujian, dan modularitas kode.</p>
+
+    <pre>
+simadu-api/
+├── src/
+│   ├── routes/          # Menentukan rute URL dan HTTP verbs
+│   ├── controllers/     # Menangani request HTTP, parameter, dan HTTP response
+│   ├── services/        # Logika bisnis, aturan kepemilikan dan status data
+│   ├── repositories/    # Abstraksi data store (User dan Pengaduan)
+│   └── middleware/      # JWT verify, role check (RBAC), validator, error handler
+├── docs/
+│   └── openapi.json     # Kontrak antarmuka OpenAPI 3.0 / Swagger UI
+├── tests/
+│   ├── test-runner.cjs  # Otomasi pengujian 12 skenario
+│   └── simadu_api.postman_collection.json # File koleksi Postman
+├── app.cjs              # Inisialisasi Express & routing
+├── server.cjs           # Server entry point
+├── package.json
+└── README.md
+    </pre>
+
+    <h2 class="section-title">BAB III: Mekanisme Keamanan dan Kontrol Akses</h2>
+    <ol>
+      <li><strong>Keamanan Kredensial</strong>: Password pengguna dienkripsi secara satu arah menggunakan <code>bcryptjs</code> (salt rounds = 10) saat sistem diinisialisasi. Password plaintext tidak pernah disimpan.</li>
+      <li><strong>Autentikasi Bearer Token (JWT)</strong>: Token ditandatangani menggunakan algoritma HMAC-SHA256 dengan secret key yang aman dan masa berlaku token 1 jam. Token disematkan pada setiap request melalui header <code>Authorization: Bearer &lt;token&gt;</code>.</li>
+      <li><strong>Otorisasi Berbasis Peran & Kepemilikan (RBAC & Ownership Check)</strong>:
+        <ul>
+          <li>Peran diverifikasi via middleware <code>requireRole</code>.</li>
+          <li>Kepemilikan diverifikasi di level service: identitas <code>mahasiswaId</code> pada pengaduan dicocokkan dengan <code>req.user.id</code> dari token. Pelanggaran akses menghasilkan kode <strong>403 Forbidden</strong>.</li>
+        </ul>
+      </li>
+      <li><strong>Validasi Input & Error Handling Terpusat</strong>: Request body disaring secara ketat; field tak dikenal atau field internal (seperti <code>id</code>, <code>status</code>) langsung ditolak dengan kode <strong>400 Bad Request</strong>. Seluruh error diproses oleh Global Error Handler tanpa membocorkan stack trace.</li>
+    </ol>
+
+    <h2 class="section-title">BAB IV: Hasil Pengujian Fungsional dan Keamanan (12 Skenario)</h2>
+    <p>Pengujian dilakukan secara otomatis menggunakan skrip <code>npm test</code> (skrip <code>tests/test-runner.cjs</code>) dan diverifikasi melalui Postman. Seluruh 12 skenario berhasil memenuhi ekspektasi:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Skenario Pengujian</th>
+          <th>Metode & Endpoint</th>
+          <th>Ekspektasi</th>
+          <th>Hasil Aktual</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Login dengan kredensial benar</td>
+          <td><code>POST /api/auth/login</code></td>
+          <td>200, Token diterima</td>
+          <td>200 OK</td>
+          <td><span class="badge-pass">PASSED</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Login dengan password salah</td>
+          <td><code>POST /api/auth/login</code></td>
+          <td>401</td>
+          <td>401 Unauthorized</td>
+          <td><span class="badge-pass">PASSED</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Akses endpoint terlindungi tanpa token</td>
+          <td><code>GET /api/pengaduan</code></td>
+          <td>401</td>
+          <td>401 Unauthorized</td>
+          <td><span class="badge-pass">PASSED</span></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Akses menggunakan token tidak valid</td>
+          <td><code>GET /api/pengaduan</code></td>
+          <td>401</td>
+          <td>401 Unauthorized</td>
+          <td><span class="badge-pass">PASSED</span></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Mahasiswa membuat pengaduan valid</td>
+          <td><code>POST /api/pengaduan</code></td>
+          <td>201</td>
+          <td>201 Created</td>
+          <td><span class="badge-pass">PASSED</span></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Mahasiswa membaca pengaduan sendiri</td>
+          <td><code>GET /api/pengaduan/1</code></td>
+          <td>200</td>
+          <td>200 OK</td>
+          <td><span class="badge-pass">PASSED</span></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>Mahasiswa mencoba membaca pengaduan orang lain</td>
+          <td><code>GET /api/pengaduan/3</code></td>
+          <td>403</td>
+          <td>403 Forbidden</td>
+          <td><span class="badge-pass">PASSED</span></td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>Mahasiswa mengubah status pengaduan</td>
+          <td><code>PATCH /api/pengaduan/1/status</code></td>
+          <td>403</td>
+          <td>403 Forbidden</td>
+          <td><span class="badge-pass">PASSED</span></td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>Admin melihat seluruh pengaduan</td>
+          <td><code>GET /api/pengaduan</code></td>
+          <td>200</td>
+          <td>200 OK</td>
+          <td><span class="badge-pass">PASSED</span></td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>Admin memperbarui status pengaduan</td>
+          <td><code>PATCH /api/pengaduan/1/status</code></td>
+          <td>200</td>
+          <td>200 OK</td>
+          <td><span class="badge-pass">PASSED</span></td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td>Membuat pengaduan dengan field wajib kosong</td>
+          <td><code>POST /api/pengaduan</code></td>
+          <td>400</td>
+          <td>400 Bad Request</td>
+          <td><span class="badge-pass">PASSED</span></td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td>Mengakses ID pengaduan yang tidak ditemukan</td>
+          <td><code>GET /api/pengaduan/99999</code></td>
+          <td>404</td>
+          <td>404 Not Found</td>
+          <td><span class="badge-pass">PASSED</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 class="section-title">BAB V: Dokumentasi Teknis dan Swagger UI</h2>
+    <p>SIMADU API dilengkapi dokumentasi interaktif yang dapat dibuka langsung di peramban web pada alamat <strong><code>http://localhost:3000/api-docs</code></strong>. Dokumentasi ini mencakup skema request, response, status code, dan otorisasi Bearer Token interaktif.</p>
+
+    <h2 class="section-title">BAB VI: Jawaban 10 Pertanyaan Demonstrasi UTS</h2>
+
+    <div class="question-card">
+      <h4>1. Apa perbedaan autentikasi dan otorisasi? Tunjukkan implementasinya di dalam kode.</h4>
+      <p><strong>Autentikasi (Authentication)</strong> adalah proses membuktikan identitas pengguna ("Siapa Anda?"), misalnya memeriksa apakah username dan password yang dimasukkan cocok. Di dalam kode proyek ini, autentikasi ditangani oleh <code>auth.service.cjs</code> (login) dan middleware <code>authenticateToken</code> di <code>auth.middleware.cjs</code> yang memvalidasi keaslian JWT token.<br>
+      <strong>Otorisasi (Authorization)</strong> adalah proses menentukan apakah pengguna yang sudah terautentikasi memiliki izin untuk melakukan aksi atau mengakses resource tertentu ("Apa yang boleh Anda lakukan?"). Di dalam kode, otorisasi ditangani oleh middleware <code>requireRole</code> dan pemeriksaan di <code>pengaduan.service.cjs</code> (misalnya memeriksa apakah mahasiswa adalah pemilik sah dari pengaduan yang hendak diubah).</p>
+    </div>
+
+    <div class="question-card">
+      <h4>2. Mengapa mahasiswa yang berhasil login belum tentu boleh mengakses semua endpoint?</h4>
+      <p>Karena sistem menerapkan prinsip <em>Principle of Least Privilege</em> dan kontrol akses berbasis peran (RBAC) serta pembatasan kepemilikan data (<em>Data Ownership</em>). Mahasiswa hanya berhak mengelola data miliknya sendiri. Mengizinkan mahasiswa mengakses semua endpoint akan membuka celah keamanan serius di mana mahasiswa bisa mengubah status pengaduan (wewenang admin) atau melihat pengaduan rahasia milik mahasiswa lain.</p>
+    </div>
+
+    <div class="question-card">
+      <h4>3. Apa perbedaan respons HTTP 401 dan 403?</h4>
+      <p><strong>HTTP 401 Unauthorized (Unauthenticated)</strong>: Klien belum terotentikasi. Token tidak disertakan, formatnya salah, atau sudah kedaluwarsa. Klien harus melakukan autentikasi (login) terlebih dahulu.<br>
+      <strong>HTTP 403 Forbidden (Unauthorized)</strong>: Klien sudah terautentikasi dan identitasnya sah, namun peran atau izin pengguna tersebut tidak mencukupi untuk melakukan tindakan yang diminta. Melakukan request ulang dengan kredensial yang sama tetap akan ditolak.</p>
+    </div>
+
+    <div class="question-card">
+      <h4>4. Bagaimana API memastikan seorang mahasiswa hanya dapat mengubah pengaduannya sendiri?</h4>
+      <p>API tidak mempercayai ID pemilik yang dikirim melalui request body oleh client. Sebaliknya, API mengambil identitas mahasiswa yang sah (<code>user.id</code>) langsung dari JWT token yang telah diverifikasi di server. Saat operasi update dilakukan pada <code>pengaduan.service.cjs</code>, sistem mengambil data pengaduan dari repository dan melakukan verifikasi:
+      <code>if (pengaduan.mahasiswaId !== user.id) throw 403;</code>. Jika ID pengguna tidak sama dengan ID pemilik pengaduan di data store, request langsung ditolak dengan status 403 Forbidden.</p>
+    </div>
+
+    <div class="question-card">
+      <h4>5. Mengapa password harus di-hash dan mengapa token tidak boleh dicatat ke log?</h4>
+      <p><strong>Password harus di-hash</strong>: Karena jika database atau penyimpanan server mengalami kebocoran data (<em>data breach</em>), penyerang tidak dapat membaca kata sandi asli pengguna karena hashing bekerja satu arah dengan salt acak.<br>
+      <strong>Token tidak boleh dicatat ke log</strong>: Karena Bearer Token bekerja sebagai kunci akses aktif yang dapat digunakan siapa saja yang memegangnya. Jika token tercatat di access log teks terbuka, siapa pun yang memiliki akses ke log (administrator log, sistem monitoring) dapat mencuri token tersebut dan menyamar sebagai pengguna (*impersonation/replay attack*).</p>
+    </div>
+
+    <div class="question-card">
+      <h4>6. Bagaimana sebuah input yang salah ditangani oleh middleware dan error handler?</h4>
+      <p>Input diverifikasi oleh <code>validator.middleware.cjs</code> sebelum mencapai controller. Jika ada field yang kosong, tipe data salah, atau ada field terlarang (seperti client mencoba menyuntikkan field <code>status</code> atau <code>id</code>), middleware langsung menghentikan aliran request dan mengembalikan <strong>HTTP 400 Bad Request</strong> beserta pesan detail. Jika terjadi error di level controller/service, error dilempar menggunakan <code>next(error)</code> dan diproses secara seragam oleh <code>error.middleware.cjs</code> tanpa memaparkan stack trace sensitif ke pengguna.</p>
+    </div>
+
+    <div class="question-card">
+      <h4>7. Apa perbedaan HTTPS dengan autentikasi Bearer Token?</h4>
+      <p><strong>HTTPS (TLS)</strong> mengamankan saluran pipa komunikasi di transport layer melalui enkripsi data, mencegah intersepsi atau penyadapan jaringan oleh penyerang (*Man-in-the-Middle*).<br>
+      <strong>Bearer Token</strong> bekerja pada application layer (HTTP) sebagai tiket verifikasi identitas pengguna ke server.<br>
+      <strong>Hubungan</strong>: Bearer Token mutlak membutuhkan HTTPS; jika dikirimkan melalui HTTP biasa, token tersebut dapat disadap dengan mudah oleh pihak lain di jaringan Wi-Fi/publik.</p>
+    </div>
+
+    <div class="question-card">
+      <h4>8. Bagaimana membuktikan bahwa input yang ditolak tidak mengubah data?</h4>
+      <p>Dengan melakukan <em>State Verification Test</em>: Kita memeriksa dan mencatat data pengaduan menggunakan <code>GET /api/pengaduan/:id</code> terlebih dahulu. Kemudian kita mengirimkan request yang melanggar aturan (misalnya update dengan body tidak valid atau update dari akun yang tidak berhak) dan memverifikasi bahwa server mengembalikan kode error 400/403. Terakhir, kita lakukan <code>GET</code> sekali lagi pada ID pengaduan tersebut untuk membuktikan bahwa nilai atribut pada server tetap persis sama seperti sebelum request ilegal dikirimkan.</p>
+    </div>
+
+    <div class="question-card">
+      <h4>9. Mengapa dokumentasi Swagger yang tampil belum cukup membuktikan API berjalan dengan benar?</h4>
+      <p>Karena halaman Swagger UI hanya merender file kontrak spesifikasi antarmuka (<em>schema UI</em>) secara statis di peramban. Tampilnya halaman Swagger tidak membuktikan bahwa logika bisnis backend berjalan, tidak membuktikan bahwa database terhubung dengan baik, dan tidak membuktikan bahwa mekanisme otorisasi atau penanganan skenario negatif benar-benar berfungsi di server. Pembuktian fungsional hanya bisa diverifikasi dengan eksekusi request nyata ke endpoint.</p>
+    </div>
+
+    <div class="question-card">
+      <h4>10. Apa yang harus diperbaiki agar layanan ini layak diterapkan pada lingkungan produksi?</h4>
+      <ol>
+        <li><strong>Database Persisten</strong>: Mengganti penyimpanan in-memory dengan database persisten (seperti PostgreSQL atau MySQL) dengan dukungan transaksi ACID dan migrasi database.</li>
+        <li><strong>Implementasi Protokol HTTPS</strong>: Memasang sertifikat SSL/TLS agar seluruh pertukaran data terenkripsi.</li>
+        <li><strong>Rate Limiting & Anti-Brute Force</strong>: Menambahkan middleware pembatas laju request (misalnya <code>express-rate-limit</code>) terutama pada endpoint login.</li>
+        <li><strong>Refresh Token Flow</strong>: Menggunakan Access Token berdurasi pendek (misal 15 menit) yang dipasangkan dengan Refresh Token yang disimpan aman di <code>HttpOnly Secure Cookie</code>.</li>
+        <li><strong>Logging & Monitoring Terstandar</strong>: Mengintegrasikan sistem logging terstruktur (seperti Winston/Morgan) dengan masking otomatis untuk data sensitif, serta monitoring metrik server (Prometheus/Grafana).</li>
+      </ol>
+    </div>
+
+  </div>
+
+</body>
+</html>
