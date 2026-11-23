@@ -6,8 +6,8 @@
   },
   "variable": [
     { "key": "baseUrl", "value": "http://localhost:3000/api" },
-    { "key": "studentToken", "value": "" },
-    { "key": "adminToken", "value": "" }
+    { "key": "studentToken", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im1ocy0wMDEiLCJ1c2VybmFtZSI6Im1oc19idWRpIiwibmFtYSI6IkJ1ZGkgU2FudG9zbyIsInJvbGUiOiJtYWhhc2lzd2EiLCJpYXQiOjE3OTU0NDIwMTUsImV4cCI6MTc5NTUyODQxNX0.4zgWoNyScKULxmB8GeS-dE2ZHj5es4XzS0x1F0CjwYk" },
+    { "key": "adminToken", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbS0wMDEiLCJ1c2VybmFtZSI6ImFkbWluX3VuaXYiLCJuYW1hIjoiQWRtaW4gS2FtcHVzIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzk1NDQyMDE1LCJleHAiOjE3OTU1Mjg0MTV9.HjbbFrWzkZPezs7DwvJ_3ULwgTp5SWkPIJg9e6tEIJY" }
   ],
   "item": [
     {
@@ -62,7 +62,7 @@
         "method": "POST",
         "header": [
           { "key": "Content-Type", "value": "application/json" },
-          { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+          { "key": "Authorization", "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im1ocy0wMDEiLCJ1c2VybmFtZSI6Im1oc19idWRpIiwibmFtYSI6IkJ1ZGkgU2FudG9zbyIsInJvbGUiOiJtYWhhc2lzd2EiLCJpYXQiOjE3OTU0NDIwMTUsImV4cCI6MTc5NTUyODQxNX0.4zgWoNyScKULxmB8GeS-dE2ZHj5es4XzS0x1F0CjwYk" }
         ],
         "body": {
           "mode": "raw",
@@ -76,7 +76,7 @@
       "request": {
         "method": "GET",
         "header": [
-          { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+          { "key": "Authorization", "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im1ocy0wMDEiLCJ1c2VybmFtZSI6Im1oc19idWRpIiwibmFtYSI6IkJ1ZGkgU2FudG9zbyIsInJvbGUiOiJtYWhhc2lzd2EiLCJpYXQiOjE3OTU0NDIwMTUsImV4cCI6MTc5NTUyODQxNX0.4zgWoNyScKULxmB8GeS-dE2ZHj5es4XzS0x1F0CjwYk" }
         ],
         "url": { "raw": "http://localhost:3000/api/pengaduan/1", "host": ["http://localhost:3000/api"], "path": ["pengaduan", "1"] }
       }
@@ -86,7 +86,7 @@
       "request": {
         "method": "GET",
         "header": [
-          { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+          { "key": "Authorization", "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im1ocy0wMDEiLCJ1c2VybmFtZSI6Im1oc19idWRpIiwibmFtYSI6IkJ1ZGkgU2FudG9zbyIsInJvbGUiOiJtYWhhc2lzd2EiLCJpYXQiOjE3OTU0NDIwMTUsImV4cCI6MTc5NTUyODQxNX0.4zgWoNyScKULxmB8GeS-dE2ZHj5es4XzS0x1F0CjwYk" }
         ],
         "url": { "raw": "http://localhost:3000/api/pengaduan/3", "host": ["http://localhost:3000/api"], "path": ["pengaduan", "3"] }
       }
@@ -97,7 +97,7 @@
         "method": "PATCH",
         "header": [
           { "key": "Content-Type", "value": "application/json" },
-          { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+          { "key": "Authorization", "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im1ocy0wMDEiLCJ1c2VybmFtZSI6Im1oc19idWRpIiwibmFtYSI6IkJ1ZGkgU2FudG9zbyIsInJvbGUiOiJtYWhhc2lzd2EiLCJpYXQiOjE3OTU0NDIwMTUsImV4cCI6MTc5NTUyODQxNX0.4zgWoNyScKULxmB8GeS-dE2ZHj5es4XzS0x1F0CjwYk" }
         ],
         "body": {
           "mode": "raw",
@@ -111,7 +111,7 @@
       "request": {
         "method": "GET",
         "header": [
-          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+          { "key": "Authorization", "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbS0wMDEiLCJ1c2VybmFtZSI6ImFkbWluX3VuaXYiLCJuYW1hIjoiQWRtaW4gS2FtcHVzIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzk1NDQyMDE1LCJleHAiOjE3OTU1Mjg0MTV9.HjbbFrWzkZPezs7DwvJ_3ULwgTp5SWkPIJg9e6tEIJY" }
         ],
         "url": { "raw": "http://localhost:3000/api/pengaduan", "host": ["http://localhost:3000/api"], "path": ["pengaduan"] }
       }
@@ -122,7 +122,7 @@
         "method": "PATCH",
         "header": [
           { "key": "Content-Type", "value": "application/json" },
-          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+          { "key": "Authorization", "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbS0wMDEiLCJ1c2VybmFtZSI6ImFkbWluX3VuaXYiLCJuYW1hIjoiQWRtaW4gS2FtcHVzIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzk1NDQyMDE1LCJleHAiOjE3OTU1Mjg0MTV9.HjbbFrWzkZPezs7DwvJ_3ULwgTp5SWkPIJg9e6tEIJY" }
         ],
         "body": {
           "mode": "raw",
@@ -137,7 +137,7 @@
         "method": "POST",
         "header": [
           { "key": "Content-Type", "value": "application/json" },
-          { "key": "Authorization", "value": "Bearer {{studentToken}}" }
+          { "key": "Authorization", "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im1ocy0wMDEiLCJ1c2VybmFtZSI6Im1oc19idWRpIiwibmFtYSI6IkJ1ZGkgU2FudG9zbyIsInJvbGUiOiJtYWhhc2lzd2EiLCJpYXQiOjE3OTU0NDIwMTUsImV4cCI6MTc5NTUyODQxNX0.4zgWoNyScKULxmB8GeS-dE2ZHj5es4XzS0x1F0CjwYk" }
         ],
         "body": {
           "mode": "raw",
@@ -151,7 +151,7 @@
       "request": {
         "method": "GET",
         "header": [
-          { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+          { "key": "Authorization", "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFkbS0wMDEiLCJ1c2VybmFtZSI6ImFkbWluX3VuaXYiLCJuYW1hIjoiQWRtaW4gS2FtcHVzIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzk1NDQyMDE1LCJleHAiOjE3OTU1Mjg0MTV9.HjbbFrWzkZPezs7DwvJ_3ULwgTp5SWkPIJg9e6tEIJY" }
         ],
         "url": { "raw": "http://localhost:3000/api/pengaduan/99999", "host": ["http://localhost:3000/api"], "path": ["pengaduan", "99999"] }
       }
